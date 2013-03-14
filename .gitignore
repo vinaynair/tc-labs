@@ -6,3 +6,5 @@ lab1/.classpath
 lab1/.project
 
 *.prefs
+
+*.DS_Store
