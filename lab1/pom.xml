@@ -7,6 +7,7 @@
 	<name>Lab1-FirstEhcacheCache</name>
 	<properties>
 		<ehcache.version>2.6.5</ehcache.version>
+		<slf4j.version>1.6.1</slf4j.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -14,6 +15,11 @@
 			<artifactId>ehcache</artifactId>
 			<version>${ehcache.version}</version>
 			<type>pom</type>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>${slf4j.version}</version>
 		</dependency>
 	</dependencies>
 </project>

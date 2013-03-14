@@ -1,50 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="ehcache.xsd"
-         updateCheck="true" monitoring="autodetect"
-         dynamicConfig="true" name="TestCache" >
-
-    <diskStore path="java.io.tmpdir"/>
-
-    <!--
-    Mandatory Default Cache configuration. These settings will be applied to caches
-    created programmtically using CacheManager.add(String cacheName).
-
-    The defaultCache has an implicit name "default" which is a reserved cache name.
-    -->
-    <defaultCache
-           maxElementsInMemory="0"
-           eternal="false"
-           overflowToDisk="true"
-           timeToIdleSeconds="1200"
-           timeToLiveSeconds="1200">
-    </defaultCache>
-
-	<!-- For first test without disk persistence -->
-<!--
-   <cache name="myCache"
-           maxElementsInMemory="10000"
-           eternal="false"
-           timeToIdleSeconds="0"
-           timeToLiveSeconds="36000"
-           overflowToDisk="false"
-           memoryStoreEvictionPolicy="LFU">
-    </cache>    
--->
-    <!--  For second test with disk persistence -->        
-
-    <cache name="myCache"
-           maxElementsInMemory="10000"
-           eternal="false"
-           timeToIdleSeconds="0"
-           timeToLiveSeconds="36000"
-           overflowToDisk="false"
-           clearOnFlush="false" 
-           diskPersistent="true"
-           memoryStoreEvictionPolicy="LRU"
-           maxElementsOnDisk="-1"
-           diskExpiryThreadIntervalSeconds="120">
-    </cache>
-
+<ehcache>
+	<cache name="customerCache" maxEntriesLocalHeap="10">
+	</cache>
+	<cache name="productCache" maxEntriesLocalHeap="10"
+		diskPersistent="true">
+	</cache>
 </ehcache>
