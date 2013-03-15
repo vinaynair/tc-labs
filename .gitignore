@@ -8,3 +8,5 @@ lab1/.project
 *.prefs
 
 *.DS_Store
+
+*/target

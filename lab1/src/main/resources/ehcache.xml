@@ -1,7 +1,0 @@
-<ehcache>
-	<cache name="customerCache" maxEntriesLocalHeap="10">
-	</cache>
-	<cache name="productCache" maxEntriesLocalHeap="10"
-		diskPersistent="true">
-	</cache>
-</ehcache>

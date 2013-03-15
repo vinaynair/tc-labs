@@ -1,0 +1,5 @@
+<ehcache>
+	<cache name="customerCache" maxEntriesLocalHeap="100"
+		overflowToOffHeap="true" maxBytesLocalOffHeap="1M">
+	</cache>
+</ehcache>
