@@ -11,8 +11,14 @@
 
 
  Each [L1 app](src/main/java/demo/app/l1/impl/mina/MinaL1AppServer.java) exposes a telnet friendly interface to query the distributed cache.
+<<<<<<< HEAD
 
 
+=======
+ 
+ ![consistency](https://raw.github.com/vinaynair/tc-labs/master/lab2/src/main/resources/consistency.jpg "consistency model illustration")
+ 
+>>>>>>> add pic
  To start one L1 @ port 9123
  
 `$> mvn clean compile exec:exec -Dapp=demo.app.l1.impl.mina.MinaL1AppServer -Dport=9123`
