@@ -4,8 +4,9 @@
 * Bulk loading: Basic [load](src/main/java/demo/app/Load.java) with [multithreaded load](src/main/java/demo/app/MultiThreadedLoad.java)
 `$> mvn clean compile exec:exec -Dapp=demo.app.MultiThreadedLoad`
 
-*TODO* Bulk loading using putAll operation
-*TODO* Make the code a bit more generic (read from config file as opposed to (config code[src/main/java/demo/app/Config.java])
+**TODO** Bulk loading using putAll operation
+
+**TODO** Make the code a bit more generic (read from config file as opposed to (config code[src/main/java/demo/app/Config.java])
 
 * Consistency models: Setup consists of 2 L1s backed by an L2
 
@@ -19,7 +20,8 @@
 `mvn clean compile exec:exec -Dapp=demo.app.l1.impl.mina.MinaL1AppServer -Dport=9123`
  
  One can telnet to each of these apps and try basic read & update to cache - local and backing distributed L2 cache
- ``telnet localhost 9123
+ ```
+ telnet localhost 9123
  Trying ::1...
  Connected to localhost.
  Escape character is '^]'.
@@ -30,7 +32,8 @@
  read 1
  a
  close
- Connection closed by foreign host.``
+ Connection closed by foreign host.
+ ````
  
  Run the client that updates one L1 and instanteously turns around and reads the same key on the other L1. 
  Obviously STRONG consistency guarantees that reads on any L1 gets the latest updates.
