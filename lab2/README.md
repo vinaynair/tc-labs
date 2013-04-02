@@ -1,5 +1,4 @@
 
-
 # Capabilities covered
 * **Bulk loading**: Basic [load](src/main/java/demo/app/Load.java) with [multithreaded load](src/main/java/demo/app/MultiThreadedLoad.java)
 `$> mvn clean compile exec:exec -Dapp=demo.app.MultiThreadedLoad`
@@ -9,6 +8,9 @@
 * **Consistency models**: Setup consists of two L1s backed by an L2
 
  Each [L1 app](src/main/java/demo/app/l1/impl/mina/MinaL1AppServer.java) exposes a telnet friendly interface to query the distributed cache.
+ 
+
+![consistency](https://raw.github.com/vinaynair/tc-labs/master/lab2/src/main/resources/consistency.jpg "consistency model illustration")
  
  To start one L1 @ port 9123
  
