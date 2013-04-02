@@ -1,14 +1,18 @@
 
 
 # Capabilities covered
-* Basic [load](src/main/java/demo/app/Load.java) with [multithreaded load](src/main/java/demo/app/MultiThreadedLoad.java)
+* Bulk loading: Basic [load](src/main/java/demo/app/Load.java) with [multithreaded load](src/main/java/demo/app/MultiThreadedLoad.java)
 `$> mvn clean compile exec:exec -Dapp=demo.app.MultiThreadedLoad`
 
-* Basic set of 2 L1s backed by an L2 that can be modified to identify how various consistency model works
+*TODO* Bulk loading using putAll operation
+*TODO* Make the code a bit more generic (read from config file as opposed to (config code[src/main/java/demo/app/Config.java])
 
- The L1 app is an application that exposes a telnet friendly interface to query the cache, both local as well as the L2.
+* Consistency models: Setup consists of 2 L1s backed by an L2
+
+ Each L1 app exposes a telnet friendly interface to query the distributed cache.
  
- To start one L1 @ port 9123 
+ To start one L1 @ port 9123
+ 
 `$> mvn clean compile exec:exec -Dapp=demo.app.l1.impl.mina.MinaL1AppServer -Dport=9123`
 
 , and to start another L1 @ port 9124
@@ -37,7 +41,7 @@
  
 # Pre-requisities
 * Copy terracotta-license.key to root folder
-* Start [TSA server](src/main/resources/tc-config.xml)
+* Start [TSA server using (tc-config)[(src/main/resources/tc-config.xml)] such as the one provided 
 
 
 
