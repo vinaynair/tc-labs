@@ -38,7 +38,7 @@
  EVENTUAL consistency ensures updates on all L1 in near-real time but doesnt guarenteed real-time. 
  Having said that for all end-user scenarios EVENTUAL should be sufficient. Note that most NoSql solution support only EVENTUAL, where as Terracotta allows one to configure consistency levels.
  
- There is also a provided [client]((src/main/java/demo/app/l1/impl/mina/SimpleL1AppClient.java) that updates one L1 and then quickly turn around & read the same key from the other L1. See below as to how to run the same
+ There is also a provided [client](src/main/java/demo/app/l1/impl/mina/SimpleL1AppClient.java) that updates one L1 and then quickly turn around & read the same key from the other L1. See below as to how to run the same
  
  ```
  mvn clean compile exec:exec -Dapp=demo.app.l1.impl.mina.SimpleL1AppClient -Dport1=9123 -Dport2=9124 -DchangeTo=NEWVALUE1
