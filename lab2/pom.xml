@@ -1,0 +1,131 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.terracotta.demo</groupId>
+	<artifactId>basic</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>basic</name>
+	<description>2 L1s backed on L2</description>
+
+	<repositories>
+		<repository>
+			<id>terracotta-snapshots</id>
+			<url>http://www.terracotta.org/download/reflector/snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>terracotta-releases</id>
+			<url>http://www.terracotta.org/download/reflector/releases</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>terracotta-snapshots</id>
+			<url>http://www.terracotta.org/download/reflector/snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+		<pluginRepository>
+			<id>terracotta-releases</id>
+			<url>http://www.terracotta.org/download/reflector/releases</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-ee</artifactId>
+			<version>${ehcache.ee.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.terracotta</groupId>
+			<artifactId>terracotta-toolkit-runtime-ee</artifactId>
+			<version>4.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yammer.metrics</groupId>
+			<artifactId>metrics-core</artifactId>
+			<version>2.2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.mina</groupId>
+			<artifactId>mina-core</artifactId>
+			<version>${mina.version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.2</version>
+				<configuration>
+					<executable>java</executable>
+					<arguments>
+						<!-- <argument>-verbose:gc</argument> -->
+						<argument>-Dcom.tc.productkey.path=terracotta-license.key</argument>
+						<argument>-Dport=${port}</argument>
+						<argument>-Dport1=${port1}</argument>
+						<argument>-Dport2=${port2}</argument>
+						<argument>-DchangeTo=${changeTo}</argument>
+						<!-- <argument>-XX:+PrintGCDetails</argument> <argument>-Xloggc:${basedir}/target/verbose-gc.log</argument> -->
+						<argument>-XX:MaxDirectMemorySize=${maxDirectMemorySize}</argument>
+						<argument>-Xms${min.heap}</argument>
+						<argument>-Xmx${max.heap}</argument> <!-- <argument>-Xms${min.heap}</argument> <argument>-Xmx${max.heap}</argument> 
+							<argument>-Dthreads=${threads}</argument> <argument>-DwarmupThreads=${threads}</argument> 
+							<argument>-Dehcache.clustered=false</argument> -->
+						<argument>-classpath</argument>
+						<classpath />
+						<argument>${app}</argument>
+					</arguments>
+				</configuration>
+			</plugin>
+
+
+		</plugins>
+	</build>
+
+	<properties>
+		<ehcache.ee.version>2.7.0</ehcache.ee.version>
+		<ehcache.version>2.6.5</ehcache.version>
+		<slf4j.version>1.6.6</slf4j.version>
+		<maxDirectMemorySize>4g</maxDirectMemorySize>
+		<min.heap>2g</min.heap>
+		<max.heap>2g</max.heap>
+		<mina.version>2.0.7</mina.version>
+	</properties>
+
+</project>

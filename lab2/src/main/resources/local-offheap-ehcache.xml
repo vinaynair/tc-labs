@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd">
+	 
+	 <diskStore path="tmp"/>
+	 <!--  scenario = 200kx15mb=3000gb=30TB??? -->
+	 <!-- 200 x 10MB cache element = 2GB total size -->
+	 <!-- 50 works, 100 doesnt work; leads to OOM error -->
+	<!--  <cache name="myCache2" 
+		maxBytesLocalHeap="1G" 
+		overflowToOffHeap="true"
+		maxBytesLocalOffHeap="3G" statistics="true">
+		<searchable>
+			<searchAttribute name="id"/>
+		</searchable>
+	</cache>
+	 -->
+	<cache name="myCache" 
+		maxEntriesLocalHeap="100" 
+		overflowToOffHeap="true"
+		maxBytesLocalOffHeap="3G" 
+		statistics="true">
+	</cache>
+</ehcache>
