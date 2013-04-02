@@ -6,11 +6,11 @@
 
 **TODO** Bulk loading using putAll operation
 
-**TODO** Make the code a bit more generic (read from config file as opposed to (config code[src/main/java/demo/app/Config.java])
+**TODO** Make the code a bit more generic (read from config file as opposed to [config code](src/main/java/demo/app/Config.java])
 
 * Consistency models: Setup consists of 2 L1s backed by an L2
 
- Each L1 app exposes a telnet friendly interface to query the distributed cache.
+ Each [L1 app](src/main/java/demo/app/l1/impl/mina/MinaL1AppServer.java) exposes a telnet friendly interface to query the distributed cache.
  
  To start one L1 @ port 9123
  
@@ -33,14 +33,18 @@
  a
  close
  Connection closed by foreign host.
- ````
+ ```
  
  Run the client that updates one L1 and instanteously turns around and reads the same key on the other L1. 
  Obviously STRONG consistency guarantees that reads on any L1 gets the latest updates.
  EVENTUAL consistency ensures updates on all L1 in near-real time but doesnt guarenteed real-time. 
- Having said that for all end-user scenarios EVENTUAL should be sufficient. Note that most NoSql solution support only EVENTUAL, where as Terracotta allows one to configure consistency levels
+ Having said that for all end-user scenarios EVENTUAL should be sufficient. Note that most NoSql solution support only EVENTUAL, where as Terracotta allows one to configure consistency levels.
  
- `mvn clean compile exec:exec -Dapp=demo.app.l1.impl.mina.SimpleL1AppClient -Dport1=9123 -Dport2=9124 -DchangeTo=NEWVALUE1`
+ There is also a provided [client]((src/main/java/demo/app/l1/impl/mina/SimpleL1AppClient.java) that updates one L1 and then quickly turn around & read the same key from the other L1. See below as to how to run the same
+ 
+ ```
+ mvn clean compile exec:exec -Dapp=demo.app.l1.impl.mina.SimpleL1AppClient -Dport1=9123 -Dport2=9124 -DchangeTo=NEWVALUE1
+ ```
  
 # Pre-requisities
 * Copy terracotta-license.key to root folder
