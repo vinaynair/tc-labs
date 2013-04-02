@@ -41,7 +41,7 @@
  
 # Pre-requisities
 * Copy terracotta-license.key to root folder
-* Start [TSA server using (tc-config)[(src/main/resources/tc-config.xml)] such as the one provided 
+* Start TSA server using [tc-config](src/main/resources/tc-config.xml) such as the one provided 
 
 
 
