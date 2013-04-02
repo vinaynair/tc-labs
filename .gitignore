@@ -10,3 +10,5 @@ lab1/.project
 *.DS_Store
 
 */target
+
+*/*.key
