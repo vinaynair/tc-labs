@@ -1,14 +1,12 @@
 
 
 # Capabilities covered
-* Bulk loading: Basic [load](src/main/java/demo/app/Load.java) with [multithreaded load](src/main/java/demo/app/MultiThreadedLoad.java)
+* **Bulk loading**: Basic [load](src/main/java/demo/app/Load.java) with [multithreaded load](src/main/java/demo/app/MultiThreadedLoad.java)
 `$> mvn clean compile exec:exec -Dapp=demo.app.MultiThreadedLoad`
 
-**TODO** Bulk loading using putAll operation
 
-**TODO** Make the code a bit more generic (read from config file as opposed to [config code](src/main/java/demo/app/Config.java])
 
-* Consistency models: Setup consists of 2 L1s backed by an L2
+* **Consistency models**: Setup consists of two L1s backed by an L2
 
  Each [L1 app](src/main/java/demo/app/l1/impl/mina/MinaL1AppServer.java) exposes a telnet friendly interface to query the distributed cache.
  
@@ -49,6 +47,7 @@
 # Pre-requisities
 * Copy terracotta-license.key to root folder
 * Start TSA server using [tc-config](src/main/resources/tc-config.xml) such as the one provided 
+
 
 
 
