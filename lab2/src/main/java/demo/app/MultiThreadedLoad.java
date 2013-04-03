@@ -1,9 +1,8 @@
 package demo.app;
 
 import java.lang.management.ManagementFactory;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import javax.management.MBeanServer;
@@ -20,6 +19,13 @@ import demo.common.Util;
 import demo.common.sequence.FixedSizeElementSequence;
 import demo.workers.PutWork;
 
+/**
+ * 
+ * 
+ * @see Config Configuration details behind the load including cache config are here
+ * @author vch
+ * 
+ */
 public class MultiThreadedLoad {
 	private static Logger LOG = LoggerFactory
 			.getLogger(MultiThreadedLoad.class);
@@ -34,17 +40,21 @@ public class MultiThreadedLoad {
 		FixedSizeElementSequence elementSequence = new FixedSizeElementSequence(
 				Config.NUMBER_OF_ENTRIES, Config.SIZE_OF_ENTRY);
 
+		// clear the inmemory store before we begin
 		Config.CACHE.removeAll();
 		LOG.info("cache size should be zero. size=" + Config.CACHE.getSize()
 				+ "\n starting load");
-		Util.sleepFor(3);
-		Config.CACHE.setNodeBulkLoadEnabled(true);
-		ArrayBlockingQueue<Runnable> taskQueue = new ArrayBlockingQueue<Runnable>(
-				Config.NUMBER_OF_ENTRIES);
-		ThreadPoolExecutor executor = new ThreadPoolExecutor(10, 10, 100,
-				TimeUnit.SECONDS, taskQueue);
-		executor.prestartAllCoreThreads();
 
+		// start the thread pool
+		int numberOfProcessors = Runtime.getRuntime().availableProcessors();
+		System.out.println("Using a threadpool of " + numberOfProcessors
+				+ " to perform load");
+		ExecutorService executor = Executors
+				.newFixedThreadPool(numberOfProcessors);
+		Util.sleepFor(3);
+		
+		// start load routine
+		Config.CACHE.setNodeBulkLoadEnabled(true);
 		long start = System.currentTimeMillis();
 		while (elementSequence.hasNext()) {
 			Element element = elementSequence.next();
@@ -62,16 +72,18 @@ public class MultiThreadedLoad {
 		long endOfWorkerThread = System.currentTimeMillis();
 
 		Config.CACHE.setNodeBulkLoadEnabled(false);
-
-		Config.CALL_TIMER.stop();// stop the timer
+		// stop the timer, maybe we should be stoping
+		// it somewhere else. anyways.
+		Config.CALL_TIMER.stop();
 		long endOfBulkLoadReset = System.currentTimeMillis();
 
 		int endSize = Config.CACHE.getSize();
-		LOG.info("complete. total time for " + Config.NUMBER_OF_ENTRIES
+		LOG.info("load complete. total time for " + Config.NUMBER_OF_ENTRIES
 				+ " puts to complete is " + (endOfWorkerThread - start)
 				+ "ms, and time it took to reset bulk mode is "
 				+ (endOfBulkLoadReset - endOfWorkerThread) + "ms \n End size="
-				+ endSize);
+				+ endSize
+				+ "\n Spin up the JMX console to view metrics before exiting");
 
 		// just wait for return
 		// for now, waiting for user input to close the
@@ -79,7 +91,9 @@ public class MultiThreadedLoad {
 		// TMC :)
 
 		Util.waitForInput();
+		// use console reporter to report metrics.
 		ConsoleReporter.enable(1, TimeUnit.SECONDS);
+		// a hack to have it print report before exiting
 		Util.sleepFor(2);
 
 	}
