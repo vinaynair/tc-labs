@@ -13,7 +13,7 @@ import demo.common.Constants;
 
 public class Config {
 
-	public static int NUMBER_OF_ENTRIES = 1000000;
+	public static int NUMBER_OF_ENTRIES = 100000;
 	public static int SIZE_OF_ENTRY = 1 * Constants._1KB;
 
 	private static String EHCACHE_CONFIG = "tsa-ehcache.xml";

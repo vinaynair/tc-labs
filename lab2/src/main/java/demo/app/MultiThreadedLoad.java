@@ -7,22 +7,24 @@ import java.util.concurrent.TimeUnit;
 
 import javax.management.MBeanServer;
 
+import net.sf.ehcache.Cache;
 import net.sf.ehcache.Element;
 import net.sf.ehcache.management.ManagementService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.yammer.metrics.core.TimerContext;
 import com.yammer.metrics.reporting.ConsoleReporter;
 
 import demo.common.Util;
 import demo.common.sequence.FixedSizeElementSequence;
-import demo.workers.PutWork;
 
 /**
  * 
  * 
- * @see Config Configuration details behind the load including cache config are here
+ * @see Config Configuration details behind the load including cache config are
+ *      here
  * @author vch
  * 
  */
@@ -52,7 +54,7 @@ public class MultiThreadedLoad {
 		ExecutorService executor = Executors
 				.newFixedThreadPool(numberOfProcessors);
 		Util.sleepFor(3);
-		
+
 		// start load routine
 		Config.CACHE.setNodeBulkLoadEnabled(true);
 		long start = System.currentTimeMillis();
@@ -96,6 +98,28 @@ public class MultiThreadedLoad {
 		// a hack to have it print report before exiting
 		Util.sleepFor(2);
 
+	}
+
+	/**
+	 * lazy , creating static class for compactness of readability :)
+	 * 
+	 * @author vch
+	 * 
+	 */
+	static class PutWork implements Runnable {
+		Cache _cache;
+		Element _element;
+
+		public PutWork(Cache cache, Element element) {
+			_cache = cache;
+			_element = element;
+		}
+
+		public void run() {
+			TimerContext time = Config.CALL_TIMER.time();
+			_cache.put(_element);
+			time.stop();
+		}
 	}
 
 }

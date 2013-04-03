@@ -1,9 +1,9 @@
 
-lab1/.DS_Store
+*/.DS_Store
 
-lab1/.classpath
+*/.classpath
 
-lab1/.project
+*/.project
 
 *.prefs
 
@@ -11,5 +11,5 @@ lab1/.project
 
 */target
 
-*/*.key
+*.key
 
