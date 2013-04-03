@@ -27,7 +27,7 @@ import demo.common.sequence.FixedSizeElementSequence;
  * Basic usage involves <br/>
  * <code>
  * loader = new MultiThreadedBatchLoader(cache,batchsize);<br/>
- * loader.put(element); // not that puts a collected internally till a batch is formed for submission<br/>
+ * loader.put(element); // note that puts are collected internally till a batch is formed for submission<br/>
  * loader.shutdownAndWaitFor(5000);//milliseconds<br/>
  * </code>
  * This implementation is <b>not threadsafe</b><br/>
