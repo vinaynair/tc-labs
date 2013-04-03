@@ -32,7 +32,7 @@ public class SimpleL1AppClient {
 			System.out.print(".");
 			// if update doesnt match read, print the miss
 			if (false == value2.equals(newUpdateValue)) {
-				System.out.println("MISS[got " + value2 + ", expected "
+				System.out.println("MISS. Check if strong consistency is set. [got " + value2 + ", expected "
 						+ newUpdateValue + "]");
 			}
 		}
