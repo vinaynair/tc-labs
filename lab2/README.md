@@ -1,6 +1,13 @@
 # Capabilities covered
-* **Bulk loading**: Basic [load](src/main/java/demo/app/Load.java) with [multithreaded load](src/main/java/demo/app/MultiThreadedLoad.java)
+* **Bulk loading**: One can bulk load depending upon the need using a basic [put() call](src/main/java/demo/app/Load.java) after setting the cache in bulk mode,  
+`$> mvn clean compile exec:exec -Dapp=demo.app.Load`
+
+or [multi-thread these puts/load](src/main/java/demo/app/MultiThreadedLoad.java) to address slow data sources
 `$> mvn clean compile exec:exec -Dapp=demo.app.MultiThreadedLoad`
+
+or to gain better performance [batch the puts](src/main/java/demo/app/MultiThreadedBatchLoad.java) as well.
+`$> mvn clean compile exec:exec -Dapp=demo.app.MultiThreadedBatchLoad`
+
 
 
 
