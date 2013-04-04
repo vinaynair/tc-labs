@@ -1,15 +1,11 @@
 package demo.app;
 
-import java.lang.management.ManagementFactory;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import javax.management.MBeanServer;
-
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.Element;
-import net.sf.ehcache.management.ManagementService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,18 +29,16 @@ public class MultiThreadedLoad {
 			.getLogger(MultiThreadedLoad.class);
 
 	public static void main(String[] args) throws Exception {
-		// Cache cache = getCache("tsa-ehcache.xml");
-		MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
-		ManagementService.registerMBeans(Config.CACHE_MANAGER, mBeanServer,
-				false, false, false, true);
+		Config config = new Config();
+		Cache cache = config.getCache();
 
 		// cache data generator sequence
 		FixedSizeElementSequence elementSequence = new FixedSizeElementSequence(
 				Config.NUMBER_OF_ENTRIES, Config.SIZE_OF_ENTRY);
 
 		// clear the inmemory store before we begin
-		Config.CACHE.removeAll();
-		LOG.info("cache size should be zero. size=" + Config.CACHE.getSize()
+		cache.removeAll();
+		LOG.info("cache size should be zero. size=" + cache.getSize()
 				+ "\n starting load");
 
 		// start the thread pool
@@ -56,11 +50,11 @@ public class MultiThreadedLoad {
 		Util.sleepFor(3);
 
 		// start load routine
-		Config.CACHE.setNodeBulkLoadEnabled(true);
+		cache.setNodeBulkLoadEnabled(true);
 		long start = System.currentTimeMillis();
 		while (elementSequence.hasNext()) {
 			Element element = elementSequence.next();
-			executor.execute(new PutWork(Config.CACHE, element));
+			executor.execute(new PutWork(cache, element));
 		}
 		executor.shutdown();
 		boolean allTasksCompleted = executor.awaitTermination(5,
@@ -73,13 +67,13 @@ public class MultiThreadedLoad {
 		// now remove bulkmode
 		long endOfWorkerThread = System.currentTimeMillis();
 
-		Config.CACHE.setNodeBulkLoadEnabled(false);
+		cache.setNodeBulkLoadEnabled(false);
 		// stop the timer, maybe we should be stoping
 		// it somewhere else. anyways.
 		Config.CALL_TIMER.stop();
 		long endOfBulkLoadReset = System.currentTimeMillis();
 
-		int endSize = Config.CACHE.getSize();
+		int endSize = cache.getSize();
 		LOG.info("load complete. total time for " + Config.NUMBER_OF_ENTRIES
 				+ " puts to complete is " + (endOfWorkerThread - start)
 				+ "ms, and time it took to reset bulk mode is "

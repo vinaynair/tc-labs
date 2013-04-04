@@ -53,6 +53,11 @@ or to gain better performance [batch the puts](src/main/java/demo/app/MultiThrea
  mvn clean compile exec:exec -Dapp=demo.app.l1.impl.mina.SimpleL1AppClient -Dport1=9123 -Dport2=9124 -DchangeTo=NEWVALUE1
  ```
  
+ * **Boot strapping from L2**: An L1 backed by an L2 after a restart doesn't auto-magically load old key-values from the backing L2. One can [warm the L1](http://ehcache.org/documentation/configuration/configuration#cache-warming-for-multi-tier-caches) after restart from the backing L2 using a [Cache bootstrap provided by Terracotta](http://ehcache.org/apidocs/net/sf/ehcache/terracotta/TerracottaBootstrapCacheLoaderFactory.html). To run a sample that does just that see below:-
+ ```
+ mvn clean compile exec:exec -Dapp=demo.app.PutOnBootStrappedCache
+ ```
+ 
 # Pre-requisities
 * Copy terracotta-license.key to root folder
 * Start TSA server using [tc-config](src/main/resources/tc-config.xml) such as the one provided 

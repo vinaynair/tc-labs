@@ -1,10 +1,6 @@
 package demo.app;
 
-import java.lang.management.ManagementFactory;
-
-import javax.management.MBeanServer;
-
-import net.sf.ehcache.management.ManagementService;
+import net.sf.ehcache.Cache;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,16 +13,16 @@ public class Get {
 
 	public static void main(String[] args) throws Exception {
 		// Cache cache = getCache("tsa-ehcache.xml");
-		MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
-		ManagementService.registerMBeans(Config.CACHE_MANAGER, mBeanServer,
-				false, false, false, true);
+		Config config= new Config();
+		Cache cache = config.getCache();
+		
 
 		// cache key generator sequence
 		IntegerSequence keySequence = new IntegerSequence(
 				Config.NUMBER_OF_ENTRIES);
 		
 		// now start getting from cache ( in a separate thread)
-		GetWorker getWorker = new GetWorker(Config.CACHE, keySequence);
+		GetWorker getWorker = new GetWorker(cache, keySequence);
 		getWorker.start();
 		// for now waiting for get to complete too
 		getWorker.join();

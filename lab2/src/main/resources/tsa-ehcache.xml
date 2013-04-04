@@ -2,16 +2,30 @@
 
 <ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd">
-	
+
 	<!-- 200kx15mb=3000gb=30TB??? -->
 	<!-- anyways, 200 x 10MB = 2GB but allocating a bit more -->
 	<!-- <cache name="myCache2" maxElementsInMemory="10000" overflowToOffHeap="true" 
 		maxBytesLocalOffHeap="3G"> <terracotta/> </cache> -->
 	<cache name="myCache" maxElementsInMemory="10000" eternal="true"
 		statistics="true">
-		
+
 		<terracotta consistency="EVENTUAL" />
 	</cache>
 	<terracottaConfig url="localhost:9510" />
+
+	<cache name="bootStrappedCache" maxEntriesLocalHeap="100" eternal="true">
+		<bootstrapCacheLoaderFactory
+			class="net.sf.ehcache.terracotta.TerracottaBootstrapCacheLoaderFactory"
+			properties="bootstrapAsynchronously=false,
+           directory=key-snapshots,
+           interval=5,
+           immediateShutdown=false,
+           snapshotOnShutDown=true,
+           doKeySnapshot=true,
+           useDedicatedThread=true" />
+		<terracotta />
+
+	</cache>
 
 </ehcache>

@@ -1,12 +1,6 @@
 package demo.app;
 
-import java.lang.management.ManagementFactory;
-
-import javax.management.MBeanServer;
-
-import net.sf.ehcache.management.ManagementService;
-
-
+import net.sf.ehcache.Cache;
 import demo.common.Constants;
 import demo.common.sequence.FixedSizeElementSequence;
 import demo.common.sequence.IntegerSequence;
@@ -21,10 +15,8 @@ import demo.workers.PutWorker;
  */
 public class PutAndGet {
 	public static void main(String[] args) throws Exception {
-		// Cache cache = getCache("tsa-ehcache.xml");
-		MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
-		ManagementService.registerMBeans(Config.CACHE_MANAGER, mBeanServer, false,
-				false, false, true);
+		Config config = new Config();
+		Cache cache = config.getCache();
 
 		// cache data generator sequence
 		// 10MB cache entry sequence
@@ -35,14 +27,14 @@ public class PutAndGet {
 				Config.NUMBER_OF_ENTRIES);
 
 		// start putting data into the cache
-		PutWorker putWorker = new PutWorker(Config.CACHE, elementSequence);
+		PutWorker putWorker = new PutWorker(cache, elementSequence);
 		// TODO: using metrics measure time
 		putWorker.start();
 		// for now, waiting for put to complete
 		putWorker.join();
 
 		// now start getting from cache ( in a separate thread)
-		GetWorker getWorker = new GetWorker(Config.CACHE, keySequence);
+		GetWorker getWorker = new GetWorker(cache, keySequence);
 		getWorker.start();
 		// for now waiting for get to complete too
 		getWorker.join();

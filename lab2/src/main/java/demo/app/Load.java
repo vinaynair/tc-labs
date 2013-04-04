@@ -1,11 +1,8 @@
 package demo.app;
 
-import java.lang.management.ManagementFactory;
 import java.util.concurrent.TimeUnit;
 
-import javax.management.MBeanServer;
-
-import net.sf.ehcache.management.ManagementService;
+import net.sf.ehcache.Cache;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,25 +17,23 @@ public class Load {
 	private static Logger LOG = LoggerFactory.getLogger(Load.class);
 
 	public static void main(String[] args) throws Exception {
-		// Cache cache = getCache("tsa-ehcache.xml");
-		MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
-		ManagementService.registerMBeans(Config.CACHE_MANAGER, mBeanServer,
-				false, false, false, true);
+		Config config = new Config();
+		Cache cache = config.getCache();
 
 		// cache data generator sequence
 		FixedSizeElementSequence elementSequence = new FixedSizeElementSequence(
 				Config.NUMBER_OF_ENTRIES, Config.SIZE_OF_ENTRY);
 
-		Config.CACHE.removeAll();
-		LOG.info("cache size should be zero. size=" + Config.CACHE.getSize()
+		cache.removeAll();
+		LOG.info("cache size should be zero. size=" + cache.getSize()
 				+ "\n starting load");
 		Util.sleepFor(3);
-		Config.CACHE.setNodeBulkLoadEnabled(true);
+		cache.setNodeBulkLoadEnabled(true);
 
 		long start = System.currentTimeMillis();
 		// single threaded for now
 		// start putting data into the cache
-		PutWorker putWorker = new PutWorker(Config.CACHE, elementSequence);
+		PutWorker putWorker = new PutWorker(cache, elementSequence);
 		// TODO:use executor to make this multi-threaded
 		putWorker.start();
 		// for now, waiting for put to complete
@@ -46,12 +41,12 @@ public class Load {
 		// now remove bulkmode
 		long endOfWorkerThread = System.currentTimeMillis();
 
-		//Config.CACHE.setNodeBulkLoadEnabled(false);
+		cache.setNodeBulkLoadEnabled(false);
 
 		Config.CALL_TIMER.stop();// stop the timer
 		long endOfBulkLoadReset = System.currentTimeMillis();
 
-		int endSize = Config.CACHE.getSize();
+		int endSize = cache.getSize();
 		LOG.info("complete. total time for " + Config.NUMBER_OF_ENTRIES
 				+ " puts to complete is " + (endOfWorkerThread - start)
 				+ "ms, and time it took to reset bulk mode is "
@@ -62,7 +57,7 @@ public class Load {
 		// for now, waiting for user input to close the
 		// program. This gives us time to look at the metrics on JMX console or
 		// TMC :)
-
+		
 		Util.waitForInput();
 		ConsoleReporter.enable(1, TimeUnit.SECONDS);
 		Util.sleepFor(2);

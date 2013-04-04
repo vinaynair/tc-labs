@@ -1,11 +1,8 @@
 package demo.app.l1.impl;
 
-import java.lang.management.ManagementFactory;
-
-import javax.management.MBeanServer;
-
+import net.sf.ehcache.Cache;
 import net.sf.ehcache.Element;
-import net.sf.ehcache.management.ManagementService;
+import net.sf.ehcache.terracotta.TerracottaBootstrapCacheLoader;
 import demo.app.Config;
 import demo.app.l1.RemoteCacheApi;
 import demo.common.Filler;
@@ -18,28 +15,45 @@ import demo.common.Filler;
  */
 public class L1App implements RemoteCacheApi {
 
+	Config _config;
+	Cache _cache;
+	Cache _bootStrappedCache;
+
 	public L1App() {
-		MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
-		ManagementService.registerMBeans(Config.CACHE_MANAGER, mBeanServer,
-				false, false, false, true);
+		_config = new Config();// load configuration
+		_cache = _config.getCache();
+	}
+
+	public boolean setCache(String cacheName) {
+		Cache cache = _config.getCache(cacheName);
+		if (cache != null) {
+			_cache = cache;
+			return true;
+		} else
+			return false;
 	}
 	
-	/* (non-Javadoc)
+	public void shutdown(){
+		_cache.getCacheManager().shutdown();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see demo.app.l1.RemoteCacheApi#read(java.lang.String)
 	 */
 	public String read(String key) {
-		Element e = Config.CACHE.get(key);
+		Element e = _cache.get(key);
 		if (e == null)
 			return null;
 		Filler filler = (Filler) e.getObjectValue();
 		return filler.getValue().toString();
 	}
 
-	
-	public boolean update(String key,String value) {
+	public boolean update(String key, String value) {
 		Filler filler = new Filler(Integer.parseInt(key), Config.SIZE_OF_ENTRY,
 				value);
-		Config.CACHE.put(new Element(key, filler));
+		_cache.put(new Element(key, filler));
 		return true;
 	}
 }
