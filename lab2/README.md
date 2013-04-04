@@ -53,7 +53,9 @@ or to gain better performance [batch the puts](src/main/java/demo/app/MultiThrea
  mvn clean compile exec:exec -Dapp=demo.app.l1.impl.mina.SimpleL1AppClient -Dport1=9123 -Dport2=9124 -DchangeTo=NEWVALUE1
  ```
  
- * **Boot strapping from L2**: An L1 backed by an L2 after a restart doesn't auto-magically load old key-values from the backing L2. One can [warm the L1](http://ehcache.org/documentation/configuration/configuration#cache-warming-for-multi-tier-caches) after restart from the backing L2 using a [Cache bootstrap provided by Terracotta](http://ehcache.org/apidocs/net/sf/ehcache/terracotta/TerracottaBootstrapCacheLoaderFactory.html). To run a sample that does just that see below:-
+ * **Boot strapping from L2**: An L1 backed by an L2 after a restart doesn't auto-magically load old key-values from the backing L2. One can add that magic back in easily by [warming the L1](http://ehcache.org/documentation/configuration/configuration#cache-warming-for-multi-tier-caches) after restart from the backing L2 using a [Cache bootstrap provided by Terracotta](http://ehcache.org/apidocs/net/sf/ehcache/terracotta/TerracottaBootstrapCacheLoaderFactory.html). 
+ A [sample](src/main/java/demo/app/PutOnBootStrappedCache.java) that does just that is provided too :-
+ 
  ```
  mvn clean compile exec:exec -Dapp=demo.app.PutOnBootStrappedCache
  ```
