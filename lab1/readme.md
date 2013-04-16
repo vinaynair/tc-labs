@@ -1,7 +1,7 @@
 # Lab objectives
 * Basic put and get operations on cache: See [sample code](src/test/java/labs/lab1/SimplePutAndGetScenarioTest.java)
 * Understand locks : See [sample code](src/test/java/labs/lab5/LockingScenarioTest.java) & [docs](http://terracotta.org/documentation/bigmemorygo/api/explicitlocking)
-* Searching elements within a cache: See [sample code](src/test/java/labs/SearchTest.java)
+* Searching elements within a cache: See [sample code](src/test/java/labs/lab6/SearchTest.java)
 
 # Setup
 * Copy terracotta-license.key to src/test/resources folder
