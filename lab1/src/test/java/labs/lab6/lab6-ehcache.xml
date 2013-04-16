@@ -1,0 +1,7 @@
+<ehcache>
+	<cache name="productCache" maxEntriesLocalHeap="100000">
+		<searchable>
+			<searchAttribute name="price" />
+		</searchable>
+	</cache>
+</ehcache>

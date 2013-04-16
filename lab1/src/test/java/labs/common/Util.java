@@ -1,4 +1,4 @@
-package org.terracotta.labs.common;
+package labs.common;
 
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
@@ -21,4 +21,14 @@ public class Util {
 		System.out.println("Enter to exit!");
 		System.in.read();
 	}
+
+	public static void sleepFor(int time) {
+		try {
+			Thread.sleep(time);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 }

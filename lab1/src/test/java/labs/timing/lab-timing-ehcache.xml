@@ -1,0 +1,10 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd">
+    <diskStore path="tmp"/>
+	<cache name="customerCache" maxBytesLocalHeap="1M"
+		overflowToOffHeap="true" maxBytesLocalOffHeap="2M" overflowToDisk="false">
+		<terracotta/>
+		
+	</cache>
+	<terracottaConfig url="127.0.0.1:9510"/>
+</ehcache>

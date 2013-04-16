@@ -1,0 +1,12 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd">
+	<cache name="productCacheWithNonStopAndRejoin" maxEntriesLocalHeap="10">
+		<terracotta>
+			<nonstop enabled="true" immediateTimeout="false"
+				timeoutMillis="300">
+				<timeoutBehavior type="noop" />
+			</nonstop>
+		</terracotta>
+	</cache>
+	<terracottaConfig url="localhost:9510" rejoin="true"/>
+</ehcache>

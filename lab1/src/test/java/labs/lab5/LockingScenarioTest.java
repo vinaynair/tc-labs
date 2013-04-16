@@ -1,22 +1,23 @@
-package org.terracotta.labs.lab5;
+package labs.lab5;
 
 import static org.junit.Assert.*;
+import labs.common.AbstractCacheTestScenarioSupport;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.Element;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.terracotta.labs.common.AbstractCacheTestScenarioSupport;
 
 /**
  * TODO: Barrier <br/>
  * TODO: testing with distributed cache (TSA)
+ * 
  * @author vch
- *
+ * 
  */
 public class LockingScenarioTest extends AbstractCacheTestScenarioSupport {
 	@Before
-	public void setup() {
+	public void setupEnv() {
 		usesEhcacheConfig("lab5-ehcache.xml");
 		usesCache("customerCache");
 	}
@@ -77,6 +78,14 @@ public class LockingScenarioTest extends AbstractCacheTestScenarioSupport {
 			firstThread.start();
 
 		}
+
+	}
+
+	// TODO
+	// TODO: what happens when we have a series of READ and WRITES. does write
+	// take precedence or is it all time based? (should be latter, but confirm)
+	// TODO can we set timeout for how long can the thread hold write locks?
+	public void readCommitted() {
 
 	}
 }

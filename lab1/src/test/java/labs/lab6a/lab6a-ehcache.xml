@@ -1,0 +1,9 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd">
+	<cache name="productCache" maxEntriesLocalHeap="1000">
+		<searchable>
+			<searchAttribute name="price" />
+			<searchAttribute name="merchants" class="labs.lab6a.CollectionsExtractor" properties="value.getMerchants()"/>
+		</searchable>
+	</cache>
+</ehcache>

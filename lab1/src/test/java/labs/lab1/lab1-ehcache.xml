@@ -1,0 +1,11 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" >
+	<cache name="customerCache" maxEntriesLocalHeap="100">
+	</cache>
+	<cache name="productCache" maxEntriesLocalHeap="100"
+		diskPersistent="true">
+	</cache>
+	<cache name="productCacheOffHeap" maxEntriesLocalHeap="2"
+		overflowToOffHeap="true" maxBytesLocalOffHeap="1M" />
+	<cache name="productCacheOnHeap" maxEntriesLocalHeap="1" />
+</ehcache>
