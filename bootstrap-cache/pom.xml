@@ -1,0 +1,112 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>demo.ehcache</groupId>
+  <artifactId>bootstrap</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <repositories>
+		<repository>
+			<id>terracotta-snapshots</id>
+			<url>http://www.terracotta.org/download/reflector/snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>terracotta-releases</id>
+			<url>http://www.terracotta.org/download/reflector/releases</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.2</version>
+				<configuration>
+					<executable>java</executable>
+					<arguments>
+						<argument>-XX:MaxDirectMemorySize=${maxDirectMemorySize}</argument>
+						<!-- <argument>-verbose:gc</argument> -->
+						
+						<argument>-classpath</argument>
+						<classpath />
+						<argument>${app}</argument>
+					</arguments>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-core-ee</artifactId>
+			<version>${ehcache.ee.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-terracotta-ee</artifactId>
+			<version>${ehcache.ee.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.terracotta</groupId>
+			<artifactId>${toolkit.name}</artifactId>
+			<version>${toolkit.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!--  for metrics -->
+		<dependency>
+			<groupId>com.yammer.metrics</groupId>
+			<artifactId>metrics-core</artifactId>
+			<version>2.2.0</version>
+		</dependency>
+		
+	
+
+	</dependencies>
+	<properties>
+		<springframework.version>3.2.3.RELEASE</springframework.version>
+		
+		<!-- for terracotta 3.7.5 version -->
+		<ehcache.ee.version>2.6.6</ehcache.ee.version>
+		<toolkit.name>terracotta-toolkit-1.6-runtime-ee</toolkit.name>
+		<toolkit.version>5.5.0</toolkit.version>
+
+		<slf4j.version>1.6.1</slf4j.version>
+		<junit.version>4.0</junit.version>
+		<maxDirectMemorySize>4g</maxDirectMemorySize>
+		<min.heap>2g</min.heap>
+		<max.heap>2g</max.heap>
+	</properties>
+</project>

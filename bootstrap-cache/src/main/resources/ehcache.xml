@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ehcache name="myCacheManager" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd">
+
+	<terracottaConfig url="localhost:9510" />
+
+	<cache name="cacheWithBootstrap" maxEntriesLocalHeap="1000"
+		maxBytesLocalOffHeap="1g" statistics="true" eternal="true">
+		<!-- boot strap from keys that the previous instance had in-memory. Note 
+			here we take snapshot when the cache is disposed. we can also take periodic 
+			snapshots by defining an "interval" property in seconds -->
+		<bootstrapCacheLoaderFactory
+			class="net.sf.ehcache.terracotta.TerracottaBootstrapCacheLoaderFactory"
+			properties="bootstrapAsynchronously=true,
+					directory=key-snapshots,
+					immediateShutdown=false,
+					snapshotOnShutDown=true,
+					doKeySnapshot=true,
+					doKeySnapshotOnDispose=true,
+					useDedicatedThread=true" />
+		<terracotta />
+	</cache>
+</ehcache>
