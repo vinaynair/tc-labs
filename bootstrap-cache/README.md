@@ -1,10 +1,16 @@
 # Capabilities covered
-* **Bootstrap cache**: Ability to load local cache with key+values present locally from a previous runs. Note that the values are read back from L2 TSA on a re-start
- [Put](src/main/java/demo/ehcache/bootstrap/Put.java) to load 10000 keys into L2 TSA. The program takes key snapshots locally on disk 
+* **Bootstrap cache**: Ability to load local L1 cache with key+values present from a previous run. Note that the values are read back from L2 TSA on a re-start
+
+Sample consists of a [Put](src/main/java/demo/ehcache/bootstrap/Put.java) application that loads 10000 keys into L2 TSA. 
+Note that  snapshots of local keys are taken locally on disk auto-magically.
+
 `$> mvn clean compile exec:exec -Dapp=demo.ehcache.bootstrap.Put` 
 
 
-, then  [Get](src/main/java/demo/ehcache/bootstrap/Get.java) to start-up to get those keys. You will note that as the app is loading, it pre-loads the key+values into the L1 asynchronously.
+Now re-run the [Put](src/main/java/demo/ehcache/bootstrap/Put.java)  application or maybe better, run the [Get](src/main/java/demo/ehcache/bootstrap/Get.java) application. 
+
+You will notice that on start-up it reads the keys present on the application from the previous run and loads those keys+values in the local L1. 
+
 `$> mvn clean compile exec:exec -Dapp=demo.ehcache.bootstrap.Get` 
 
 # Pre-requisities
