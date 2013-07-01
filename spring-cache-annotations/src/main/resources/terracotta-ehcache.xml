@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ehcache name="hibernateCache" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd">
+	<terracottaConfig url="localhost:9510" />
+	<cache name="customerAndOrders" maxEntriesLocalHeap="100"
+		maxBytesLocalOffHeap="3g" statistics="true">
+		<terracotta />
+	</cache>
+
+	<cache name="allRestJsonResponses" maxEntriesLocalHeap="100"
+		maxBytesLocalOffHeap="1g" statistics="true">
+		<terracotta />
+	</cache>
+
+
+</ehcache>

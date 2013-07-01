@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ehcache name="hibernateCache" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd">
+
+	<cache name="customerAndOrders" maxEntriesLocalHeap="100" statistics="true">
+	</cache>
+
+	<cache name="allRestJsonResponses" maxEntriesLocalHeap="100" statistics="true">
+	</cache>
+
+
+</ehcache>

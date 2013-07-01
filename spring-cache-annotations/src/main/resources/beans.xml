@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:cache="http://www.springframework.org/schema/cache" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://www.springframework.org/schema/context
+         http://www.springframework.org/schema/context/spring-context.xsd
+         http://www.springframework.org/schema/cache 
+         http://www.springframework.org/schema/cache/spring-cache.xsd">
+	<context:annotation-config />
+	<cache:annotation-driven />
+
+	<bean id="customerOrderServiceBean"
+		class="demo.ehcache.spring.service.impl.CustomerOrderServiceImpl">
+		<!-- setup sample customers -->
+		<property name="customerAndOrders">
+			<list>
+				<bean class="demo.ehcache.spring.model.Customer" p:id="1"
+					p:name="abc" />
+				<bean class="demo.ehcache.spring.model.Customer" p:id="2"
+					p:name="def" />
+
+			</list>
+		</property>
+	</bean>
+
+	<bean id="debugServiceBean" class="demo.ehcache.spring.service.impl.DebugServiceImpl" />
+
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager"
+		p:cache-manager-ref="ehcache" />
+
+	<!-- EhCache library setup -->
+	<bean id="ehcache"
+		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"
+		p:config-location="classpath:ehcache.xml" />
+</beans>

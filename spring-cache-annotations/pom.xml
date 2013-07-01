@@ -1,0 +1,178 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>demo.ehcache.spring</groupId>
+	<artifactId>spring-ehcache-annotation</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<repositories>
+		<repository>
+			<id>terracotta-snapshots</id>
+			<url>http://www.terracotta.org/download/reflector/snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>terracotta-releases</id>
+			<url>http://www.terracotta.org/download/reflector/releases</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.2</version>
+				<configuration>
+					<executable>java</executable>
+					<arguments>
+						<argument>-XX:MaxDirectMemorySize=${maxDirectMemorySize}</argument>
+						<!-- <argument>-verbose:gc</argument> -->
+						<argument>-Dcom.tc.productkey.path=terracotta-license.key</argument>
+						<argument>-classpath</argument>
+						<classpath />
+						<argument>demo.ehcache.spring.Main</argument>
+					</arguments>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>7.0.0.pre5</version>
+				<!-- <configuration> <systemProperties> <systemProperty> <name>log4j.configuration</name> 
+					<value>file:${project.basedir}/src/main/resources/log4j.properties</value> 
+					</systemProperty> </systemProperties> </configuration> <dependencies> <dependency> 
+					<groupId>log4j</groupId> <artifactId>log4j</artifactId> <version>1.2.16</version> 
+					</dependency> <dependency> <groupId>org.slf4j</groupId> <artifactId>slf4j-api</artifactId> 
+					<version>1.6.1</version> </dependency> <dependency> <groupId>org.slf4j</groupId> 
+					<artifactId>slf4j-log4j12</artifactId> <version>1.6.1</version> </dependency> 
+					</dependencies> -->
+			</plugin>
+		</plugins>
+	</build>
+	<profiles>
+		<profile>
+			<id>terracotta</id>
+			<activation>
+				<property>
+					<name>terracotta</name>
+				</property>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>net.sf.ehcache</groupId>
+					<artifactId>ehcache-core-ee</artifactId>
+					<version>${ehcache.ee.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>net.sf.ehcache</groupId>
+					<artifactId>ehcache-terracotta-ee</artifactId>
+					<version>${ehcache.ee.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>org.terracotta</groupId>
+					<artifactId>${toolkit.name}</artifactId>
+					<version>${toolkit.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>opensource</id>
+			<activation>
+				<property>
+					<name>opensource</name>
+				</property>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>net.sf.ehcache</groupId>
+					<artifactId>ehcache-core</artifactId>
+					<version>${ehcache.ee.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+
+	</profiles>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${springframework.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-core-ee</artifactId>
+			<version>${ehcache.ee.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxrs</artifactId>
+			<version>2.7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-jaxrs</artifactId>
+			<version>1.9.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-web</artifactId>
+			<version>2.0.4</version>
+			<exclusions>
+				<exclusion>
+					<groupId>net.sf.ehcache</groupId>
+					<artifactId>ehcache-core</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+	</dependencies>
+	<properties>
+		<springframework.version>3.2.3.RELEASE</springframework.version>
+		<ehcache.ee.version>2.6.6</ehcache.ee.version>
+		<toolkit.name>terracotta-toolkit-1.6-runtime-ee</toolkit.name>
+		<toolkit.version>5.5.0</toolkit.version>
+
+		<slf4j.version>1.6.1</slf4j.version>
+		<junit.version>4.0</junit.version>
+		<maxDirectMemorySize>4g</maxDirectMemorySize>
+		<min.heap>2g</min.heap>
+		<max.heap>2g</max.heap>
+	</properties>
+</project>
