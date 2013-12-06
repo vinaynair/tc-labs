@@ -1,0 +1,49 @@
+
+
+<tc:tc-config xmlns:tc="http://www.terracotta.org/config"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://www.terracotta.org/schema/terracotta-6.xsd">
+
+
+
+  <servers>
+    <!-- stripe one -->
+    <mirror-group group-name="groupA">
+      <!-- server number one within the stripe. if we start this server first, it assumes the ACTIVE role  -->
+      <server name="server1" host="localhost">
+		<data>~/terracotta/server1-data</data>
+    	<logs>~/terracotta/server1-logs</logs>
+		<index>~/terracotta/server1-index</index>
+		<tsa-port>9510</tsa-port>
+		<jmx-port>9520</jmx-port>
+		<tsa-group-port>9530</tsa-group-port>
+         <!-- set the capacity to 2g in-memory for the servers-->
+       <offheap>
+	   	<enabled>true</enabled>
+	   	<maxDataSize>2g</maxDataSize>
+       </offheap>
+	
+         <!-- Check http://www.terracotta.org/documentation/4.0/terracotta-server-array/config-reference 
+		 	  for rest of defaulted values -->
+      </server>
+
+      <!-- server number two within the stripe. If we start this after the first one, then it assumes the MIRROR / PASSIVE  role.
+  			Note for HA run the servers within the stripes on separate servers & ideally separate racks for HA incase of rack failure  -->
+      <!-- Note: change the host name here to match the environment -->
+      <server name="server2" host="localhost">
+  		<data>~/terracotta/server2-data</data>
+      	<logs>~/terracotta/server2-logs</logs>
+  		<index>~/terracotta/server2-index</index>
+  		<tsa-port>8510</tsa-port>
+  		<jmx-port>8520</jmx-port>
+  		<tsa-group-port>8530</tsa-group-port>
+        <offheap>
+		  <enabled>true</enabled>
+  	  	  <maxDataSize>2g</maxDataSize>
+        </offheap>
+      </server>
+    </mirror-group>
+  
+  </servers>
+   
+</tc:tc-config>
